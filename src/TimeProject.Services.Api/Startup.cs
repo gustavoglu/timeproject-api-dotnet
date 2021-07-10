@@ -34,20 +34,22 @@ namespace TimeProject.Services.Api
         {
             services.AddControllers().AddNewtonsoftJson();
 
-            services.AddIdentityMongoDbProvider<User, MongoRole<string>, string>(identity =>
-             {
-                 identity.Password.RequiredLength = 6;
-                 identity.Password.RequireDigit = false;
-                 identity.Password.RequireLowercase = false;
-                 identity.Password.RequireNonAlphanumeric = false;
-                 identity.Password.RequireUppercase = false;
+            services.AddCors(opt => opt.AddPolicy("*", plc => plc.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().Build()));
 
-                 identity.User.RequireUniqueEmail = false;
-             }, mongo =>
-             {
-                 mongo.UsersCollection = "user";
-                 mongo.ConnectionString = Configuration.GetConnectionString("MongoDbIdentity");
-             });
+            services.AddIdentityMongoDbProvider<User, MongoRole<string>, string>(identity =>
+            {
+                identity.Password.RequiredLength = 6;
+                identity.Password.RequireDigit = false;
+                identity.Password.RequireLowercase = false;
+                identity.Password.RequireNonAlphanumeric = false;
+                identity.Password.RequireUppercase = false;
+
+                identity.User.RequireUniqueEmail = false;
+            }, mongo =>
+            {
+                mongo.UsersCollection = "user";
+                mongo.ConnectionString = Configuration.GetConnectionString("MongoDbIdentity");
+            });
 
 
             services.AddAuthentication(auth =>
@@ -81,6 +83,8 @@ namespace TimeProject.Services.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("*");
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TimeProject"));
