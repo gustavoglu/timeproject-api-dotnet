@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.Identity.Mongo" Version="8.2.0" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TimeProject.Infra.Bus\TimeProject.Infra.Bus.csproj" />
+    <ProjectReference Include="..\TimeProject.Infra.Data\TimeProject.Infra.Data.csproj" />
+    <ProjectReference Include="..\TimeProject.Infra.Identity\TimeProject.Infra.Identity.csproj" />
+  </ItemGroup>
+
+</Project>
