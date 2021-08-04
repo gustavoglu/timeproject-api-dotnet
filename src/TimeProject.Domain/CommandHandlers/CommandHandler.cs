@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using System.Linq;
 using TimeProject.Domain.Core.Bus;
 using TimeProject.Domain.Core.Commands;
@@ -10,10 +11,12 @@ namespace TimeProject.Domain.CommandHandlers
     {
         protected readonly IMediatorHandler Bus;
         protected readonly DomainNotificationHandler Notifications;
-        public CommandHandler(IMediatorHandler bus, INotificationHandler<DomainNotification> domainNotificationHandler)
+        protected readonly IMapper Mapper;
+        public CommandHandler(IMediatorHandler bus, INotificationHandler<DomainNotification> domainNotificationHandler, IMapper mapper)
         {
             Bus = bus;
             this.Notifications = (DomainNotificationHandler)domainNotificationHandler;
+            Mapper = mapper;
         }
 
         protected bool CommandIsValid<T>(T command) where T : Command

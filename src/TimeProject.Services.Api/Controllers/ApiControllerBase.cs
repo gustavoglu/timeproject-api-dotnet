@@ -23,6 +23,9 @@ namespace TimeProject.Services.Api.Controllers
             Notifications = (DomainNotificationHandler)notifications;
         }
 
+
+        
+
         protected IActionResult ResponseDefault(object obj = null)
         {
             SendNotificationsByModelStateErrors();

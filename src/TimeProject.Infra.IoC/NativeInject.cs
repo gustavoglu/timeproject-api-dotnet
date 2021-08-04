@@ -1,9 +1,12 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using TimeProject.Domain.CommandHandlers;
+using TimeProject.Domain.Commands.Customers;
 using TimeProject.Domain.Core.Bus;
 using TimeProject.Domain.Core.Notifications;
 using TimeProject.Domain.Interfaces;
+using TimeProject.Domain.Mappers;
 using TimeProject.Infra.Bus;
 using TimeProject.Infra.Data.Context;
 using TimeProject.Infra.Identity.CommandHandlers;
@@ -18,6 +21,7 @@ namespace TimeProject.Infra.IoC
     {
         public static void InjectDependencies(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(CommandToEntity));
 
             services.AddMediatR(Assembly.Load("TimeProject.Infra.identity"), 
                                     Assembly.Load("TimeProject.Domain"));
@@ -30,6 +34,10 @@ namespace TimeProject.Infra.IoC
             services.AddScoped<IUserAuthHelper, UserAuthHelper>();
             services.AddScoped<IRequestHandler<RegisterUserCommand, bool>, UserCommandHandler>();
             services.AddScoped<IRequestHandler<SignInUserCommand, bool>, UserCommandHandler>();
+
+            services.AddScoped<IRequestHandler<InsertCustomerCommand, bool>, CustomerCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateCustomerCommand, bool>, CustomerCommandHandler>();
+            services.AddScoped<IRequestHandler<DeleteCustomerCommand, bool>, CustomerCommandHandler>();
 
         }
     }

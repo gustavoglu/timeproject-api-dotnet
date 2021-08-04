@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TimeProject.Presentation.Mobile.App.Pages.RegisterPage"
+             xmlns:mdi="clr-namespace:TimeProject.Presentation.Mobile.App.Icons"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+
+            <Grid Padding="0">
+
+                <StackLayout>
+                    <Path HorizontalOptions="End"   
+                  TranslationX="-150" 
+                  TranslationY="420"  
+                  HeightRequest="250" 
+                  Aspect="Uniform" 
+                  Fill="#5138ED"
+                  Data="M-260.322 529.562C-276.848 462.969 -253.184 395.009 -227.183 331.513C-203.758 274.306 -164.091 228.995 -119.648 186.028C-69.8407 137.876 -23.5701 60.3987 45.2773 68.1052C115.925 76.0132 134.34 172.671 187.061 220.36C228.563 257.9 294.828 266.262 319.743 316.372C345.603 368.384 342.692 433.19 319.318 486.366C297.37 536.294 237.515 552.622 198.944 591.18C152.382 637.726 133.174 714.294 70.6583 734.942C2.95001 757.306 -74.753 739.187 -135.342 701.59C-197.078 663.281 -242.822 600.079 -260.322 529.562Z">
+
+                    </Path>
+                </StackLayout>
+                <StackLayout>
+                    <Path HorizontalOptions="Start" 
+                      TranslationX="150" 
+                      TranslationY="-150"  
+                      HeightRequest="250" 
+                      Aspect="Uniform" 
+                      Fill="{StaticResource Key=SolidColorPrimary}"
+                      Data="M291.09 -140.138C350.33 -169.439 400.458 -236.718 465.918 -222.794C531.443 -208.855 557.413 -126.432 602.304 -73.9383C651.967 -15.8642 730.765 24.7028 742.481 100.61C754.456 178.197 717.396 260.116 661.684 310.79C610.359 357.472 530.879 334.881 464.535 353.415C404.371 370.223 352.246 434.888 292.102 414.038C231.917 393.173 222.277 308.767 183.543 256.004C145.066 203.592 73.9351 171.093 66.2596 106.4C58.5065 41.0527 102.817 -17.4853 145.537 -64.3297C183.701 -106.179 240.839 -115.283 291.09 -140.138Z">
+                    </Path>
+
+                </StackLayout>
+
+
+                <StackLayout Padding="20">
+                    <Label  FontFamily="RobotoBlack" 
+                        TextColor="Black" 
+                        HorizontalOptions="Center" 
+                        FontSize="Title"
+                       Text="SignUp"></Label>
+
+                    <Frame CornerRadius="10" HeightRequest="50" VerticalOptions="StartAndExpand" HorizontalOptions="Center" IsVisible="{Binding IsError}" 
+                           BackgroundColor="IndianRed" Margin="0,10,0,0" Padding="15,5,10,15">
+                        <StackLayout>
+                            <Label VerticalOptions="Start"  HorizontalOptions="End"  FontSize="Micro"  FontFamily="MaterialIcons" Text="{Static mdi:MateriaDesignIconFont.Close}" TextColor="White">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="CloseAlertTapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                                </Label.GestureRecognizers>
+                            </Label>
+                  
+                            <CollectionView VerticalOptions="Start"  SelectionMode="None"
+                                      HorizontalOptions="Start" ItemsSource="{Binding Errors}"   >
+                            <CollectionView.ItemTemplate>
+
+                                <DataTemplate>
+                                    <Label  HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Start"  
+                                            FontSize="Small" FontFamily="Roboto" Text="{Binding Value}" TextColor="White"></Label>
+                                </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+       
+                        </StackLayout>
+                        
+                    </Frame>
+                
+
+                <StackLayout Padding="20">
+
+                    <ScrollView>
+                        <StackLayout>
+                        <Label Style="{StaticResource Key=AppLabel}"   Text="Name"></Label>
+                        <Entry Text="{Binding Name}" ></Entry>
+
+
+                        <Label Style="{StaticResource Key=AppLabel}" Text="E-mail"></Label>
+                        <Entry Text="{Binding Email}" ></Entry>
+
+
+                        <Label  Style="{StaticResource Key=AppLabel}" Text="Password"></Label>
+                        <Entry Text="{Binding Password}" IsPassword="True" ></Entry>
+
+
+                        <Label  Style="{StaticResource Key=AppLabel}" Text="Confirm Password"></Label>
+                        <Entry Text="{Binding ConfirmPassword}" IsPassword="True" ></Entry>
+
+
+                        <Label Style="{StaticResource Key=AppLabel}" Text="Account"></Label>
+                        <Entry Text="{Binding Tenanty}" ></Entry>
+                        </StackLayout>
+                    </ScrollView>
+                </StackLayout>
+
+
+
+                </StackLayout>
+
+            <Button  
+                            Clicked="AcceptButton_Clicked"
+                            TextColor="White" 
+                            FontFamily="MaterialIcons" 
+                            FontSize="Medium"
+                            WidthRequest="60"
+                            HeightRequest="60"
+                            Margin="0,0,10,10"
+                            Text="{Static mdi:MateriaDesignIconFont.Done}" 
+                            VerticalOptions="End" 
+                            HorizontalOptions="End" 
+                            BackgroundColor="{StaticResource Key=ColorPrimary}"   
+                            CornerRadius="50"></Button>
+            <Grid IsVisible="{Binding IsBusy}">
+                <BoxView Color="Black" Opacity="0.2"></BoxView>
+                <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center" Color="{StaticResource ColorPrimary}" HeightRequest="50" IsRunning="True"></ActivityIndicator>
+            </Grid>
+        </Grid>
+     
+    </ContentPage.Content>
+
+</ContentPage>
+
+<!--<Path HeightRequest="50" Aspect="Uniform"  BackgroundColor="Black"  WidthRequest="50" Fill="#5138ED" Data="M49.9263 0.322962C50.3606 0.59247 50.6967 1.01166 50.8796 1.51207C51.0626 2.01247 51.0816 2.56449 50.9336 3.07796L42.9417 30.875H57.6875C58.1208 30.8748 58.5447 31.0104 58.9069 31.2652C59.269 31.5199 59.5535 31.8826 59.7253 32.3085C59.8971 32.7343 59.9486 33.2047 59.8735 33.6616C59.7984 34.1184 59.6 34.5417 59.3027 34.8792L23.8027 75.2542C23.4592 75.6452 23.0021 75.9001 22.506 75.9774C22.0098 76.0547 21.5038 75.9499 21.0704 75.6799C20.6371 75.41 20.3019 74.9908 20.1196 74.4909C19.9372 73.9909 19.9185 73.4396 20.0663 72.9267L28.0583 45.125H13.3125C12.8791 45.1252 12.4552 44.9895 12.0931 44.7348C11.7309 44.48 11.4464 44.1173 11.2746 43.6915C11.1028 43.2656 11.0513 42.7952 11.1264 42.3384C11.2015 41.8815 11.3999 41.4582 11.6972 41.1207L47.1972 0.745712C47.5403 0.355258 47.9967 0.100513 48.4921 0.0228977C48.9876 -0.0547176 49.4931 0.0493614 49.9263 0.318212V0.322962Z"></Path>-->
+    

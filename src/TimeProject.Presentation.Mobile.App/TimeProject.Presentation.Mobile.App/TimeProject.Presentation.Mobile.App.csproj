@@ -1,0 +1,85 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Fonts\MaterialIcons-Regular.ttf" />
+    <None Remove="Resources\Fonts\MaterialIconsOutlined-Regular.otf" />
+    <None Remove="Resources\Fonts\MaterialIconsRound-Regular.otf" />
+    <None Remove="Resources\Fonts\MaterialIconsSharp-Regular.otf" />
+    <None Remove="Resources\Fonts\MaterialIconsTwoTone-Regular.otf" />
+    <None Remove="Resources\Fonts\Roboto-Black.ttf" />
+    <None Remove="Resources\Fonts\Roboto-BlackItalic.ttf" />
+    <None Remove="Resources\Fonts\Roboto-Bold.ttf" />
+    <None Remove="Resources\Fonts\Roboto-BoldItalic.ttf" />
+    <None Remove="Resources\Fonts\Roboto-Italic.ttf" />
+    <None Remove="Resources\Fonts\Roboto-Light.ttf" />
+    <None Remove="Resources\Fonts\Roboto-LightItalic.ttf" />
+    <None Remove="Resources\Fonts\Roboto-Medium.ttf" />
+    <None Remove="Resources\Fonts\Roboto-MediumItalic.ttf" />
+    <None Remove="Resources\Fonts\Roboto-Regular.ttf" />
+    <None Remove="Resources\Fonts\Roboto-Thin.ttf" />
+    <None Remove="Resources\Fonts\Roboto-ThinItalic.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Fonts\MaterialIcons-Regular.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\MaterialIconsOutlined-Regular.otf" />
+    <EmbeddedResource Include="Resources\Fonts\MaterialIconsRound-Regular.otf" />
+    <EmbeddedResource Include="Resources\Fonts\MaterialIconsSharp-Regular.otf" />
+    <EmbeddedResource Include="Resources\Fonts\MaterialIconsTwoTone-Regular.otf" />
+    <EmbeddedResource Include="Resources\Fonts\Roboto-Black.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Roboto-BlackItalic.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Roboto-Bold.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Roboto-BoldItalic.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Roboto-Italic.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Roboto-Light.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Roboto-LightItalic.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Roboto-Medium.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Roboto-MediumItalic.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Roboto-Regular.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Roboto-Thin.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Roboto-ThinItalic.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Components\Alerts\Alert.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Components\Loadings\Loading.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\RegisterPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\Images\" />
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Pages\LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\RegisterPage.xaml.cs">
+      <DependentUpon>RegisterPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

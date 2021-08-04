@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TimeProject.Presentation.Mobile.App.Components.Loadings.Loading">
+    <ContentView.Content>
+        <Grid IsVisible="false"  Opacity="0" InputTransparent="True" CascadeInputTransparent="True" >
+            <BoxView Color="Black" Opacity="0.10"></BoxView>
+            
+            <ActivityIndicator VerticalOptions="Center" 
+                               HorizontalOptions="Center" 
+                               Color="{StaticResource ColorPrimary}" 
+                               HeightRequest="50" 
+                               IsRunning="true"></ActivityIndicator>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

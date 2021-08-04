@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TimeProject.Presentation.Mobile.App.Components.Alerts.Alert"
+             xmlns:mdi="clr-namespace:TimeProject.Presentation.Mobile.App.Icons">
+  <ContentView.Content>
+        <Frame x:Name="alertsFrame" TranslationX="0" TranslationY="100" CornerRadius="10" HeightRequest="50" VerticalOptions="StartAndExpand" HorizontalOptions="Center"  
+                           BackgroundColor="IndianRed" Margin="5" Padding="15,5,10,15">
+            <StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Label  VerticalOptions="Start"  HorizontalOptions="Start"  FontSize="Micro"  FontFamily="RobotoBlack" Text="Error" TextColor="White"/>
+                    <Label  VerticalOptions="Start"  HorizontalOptions="EndAndExpand"  FontSize="Micro"  FontFamily="MaterialIcons" Text="{Static mdi:MateriaDesignIconFont.Close}" TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="CloseTapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+
+                <CollectionView VerticalOptions="Start"  SelectionMode="None"
+                                      HorizontalOptions="Start" ItemsSource="{Binding Alerts}"   >
+                    <CollectionView.ItemTemplate>
+
+                        <DataTemplate>
+                            <Label  HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Start"  
+                                            FontSize="Small" FontFamily="Roboto" Text="{Binding}" TextColor="White"></Label>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </StackLayout>
+
+        </Frame>
+    </ContentView.Content>
+</ContentView>
