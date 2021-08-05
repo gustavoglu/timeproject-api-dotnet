@@ -6,9 +6,11 @@ using TimeProject.Domain.Commands.Customers;
 using TimeProject.Domain.Core.Bus;
 using TimeProject.Domain.Core.Notifications;
 using TimeProject.Domain.Interfaces;
+using TimeProject.Domain.Interfaces.Repositories;
 using TimeProject.Domain.Mappers;
 using TimeProject.Infra.Bus;
 using TimeProject.Infra.Data.Context;
+using TimeProject.Infra.Data.Repositories;
 using TimeProject.Infra.Identity.CommandHandlers;
 using TimeProject.Infra.Identity.Commands;
 using TimeProject.Infra.Identity.Helpers;
@@ -30,6 +32,9 @@ namespace TimeProject.Infra.IoC
             services.AddScoped<IMediatorHandler, InMemoryBus>();
 
             services.AddScoped<TenantyDbContext>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+
+
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserAuthHelper, UserAuthHelper>();
             services.AddScoped<IRequestHandler<RegisterUserCommand, bool>, UserCommandHandler>();
