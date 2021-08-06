@@ -2,6 +2,7 @@
 using TimeProject.Domain.Commands.Activities;
 using TimeProject.Domain.Commands.Customers;
 using TimeProject.Domain.Commands.Projects;
+using TimeProject.Domain.Commands.TimeSheets;
 using TimeProject.Domain.Entities;
 
 namespace TimeProject.Domain.Mappers
@@ -24,6 +25,11 @@ namespace TimeProject.Domain.Mappers
             CreateMap<InsertActivityCommand, Activity>().ReverseMap();
             CreateMap<UpdateActivityCommand, Activity>();
             CreateMap<UpdateActivityCommand, Activity>().ReverseMap();
+
+            CreateMap<InsertTimeSheetCommand, TimeSheet>();
+            CreateMap<InsertTimeSheetCommand, TimeSheet>().ReverseMap();
+            CreateMap<UpdateTimeSheetCommand, TimeSheet>();
+            CreateMap<UpdateTimeSheetCommand, TimeSheet>().ReverseMap();
         }
     }
 }
