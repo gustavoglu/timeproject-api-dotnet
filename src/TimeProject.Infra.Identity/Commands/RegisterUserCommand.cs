@@ -23,7 +23,7 @@ namespace TimeProject.Infra.Identity.Commands
 
         public override bool IsValid()
         {
-            ValidationResult = new RegisterUserValidation().Validate(this);
+            SetValidationResult(new RegisterUserValidation().Validate(this));
             return base.IsValid();
         }
     }

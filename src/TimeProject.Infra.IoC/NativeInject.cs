@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using TimeProject.Domain.CommandHandlers;
 using TimeProject.Domain.Commands.Customers;
+using TimeProject.Domain.Commands.Projects;
 using TimeProject.Domain.Core.Bus;
 using TimeProject.Domain.Core.Notifications;
 using TimeProject.Domain.Interfaces;
@@ -33,6 +34,7 @@ namespace TimeProject.Infra.IoC
 
             services.AddScoped<TenantyDbContext>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
 
 
             services.AddScoped<IUserService, UserService>();
@@ -43,6 +45,10 @@ namespace TimeProject.Infra.IoC
             services.AddScoped<IRequestHandler<InsertCustomerCommand, bool>, CustomerCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateCustomerCommand, bool>, CustomerCommandHandler>();
             services.AddScoped<IRequestHandler<DeleteCustomerCommand, bool>, CustomerCommandHandler>();
+
+            services.AddScoped<IRequestHandler<InsertProjectCommand, bool>, ProjectCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateProjectCommand, bool>, ProjectCommandHandler>();
+            services.AddScoped<IRequestHandler<DeleteProjectCommand, bool>, ProjectCommandHandler>();
 
         }
     }

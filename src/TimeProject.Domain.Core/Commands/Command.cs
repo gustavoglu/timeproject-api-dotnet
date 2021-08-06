@@ -5,7 +5,10 @@ namespace TimeProject.Domain.Core.Commands
 {
     public abstract class Command : Message
     {
-        public ValidationResult ValidationResult { get; set; }
+        protected ValidationResult ValidationResult { get;  set; }
+
+        public ValidationResult GetValidationResult() { return ValidationResult; }
+        public void SetValidationResult(ValidationResult validationResult) => ValidationResult = validationResult;
 
         public virtual bool IsValid() { return ValidationResult.IsValid; }
     }

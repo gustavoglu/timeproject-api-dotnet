@@ -6,7 +6,7 @@ namespace TimeProject.Domain.Commands.Customers
     {
         public override bool IsValid()
         {
-            ValidationResult = new UpdateCustomerValidation().Validate(this);
+            SetValidationResult(new UpdateCustomerValidation().Validate(this));
             return base.IsValid();
         }
     }

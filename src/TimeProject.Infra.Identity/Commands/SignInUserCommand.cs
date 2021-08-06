@@ -20,7 +20,7 @@ namespace TimeProject.Infra.Identity.Commands
 
         public override bool IsValid()
         {
-            ValidationResult = new SignInUserValidation().Validate(this);
+            SetValidationResult(new SignInUserValidation().Validate(this));
             return base.IsValid();
         }
 

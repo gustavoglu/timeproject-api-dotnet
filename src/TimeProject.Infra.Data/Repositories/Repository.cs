@@ -23,12 +23,14 @@ namespace TimeProject.Infra.Data.Repositories
         public Repository(TenantyDbContext context, IUserAuthHelper userAuthHelper)
         {
             Context = context;
-            Collection = Context.GetDatabase().GetCollection<T>(nameof(T).ToLower());
+            Collection = Context.GetDatabase().GetCollection<T>(typeof(T).Name.ToLower());
             UserAuthHelper = userAuthHelper;
         }
         public void Delete(string id)
         {
-            throw new NotImplementedException();
+            var entity = GetById(id);
+            SetDeleteEntityProperties(id, entity);
+            Update(entity);
         }
 
         private void SetInsertEntityProperties(T entity)
@@ -95,6 +97,7 @@ namespace TimeProject.Infra.Data.Repositories
 
         public T Insert(T entity)
         {
+            if (entity.Id == null) entity.Id = Guid.NewGuid().ToString();
             SetInsertEntityProperties(entity);
             Collection.InsertOne(entity);
             return GetById(entity.Id);

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using TimeProject.Domain.Commands.Customers;
-using TimeProject.Domain.Core.Commands;
+using TimeProject.Domain.Commands.Projects;
+using TimeProject.Domain.Core.Entities;
+using TimeProject.Domain.Entities;
 
 namespace TimeProject.Domain.Mappers
 {
@@ -8,11 +10,15 @@ namespace TimeProject.Domain.Mappers
     {
         public CommandToEntity()
         {
-            CreateMap<InsertCustomerCommand, Command>();
-            CreateMap<InsertCustomerCommand, Command>().ReverseMap();
+            CreateMap<InsertCustomerCommand, Customer>();
+            CreateMap<InsertCustomerCommand, Customer>().ReverseMap();
+            CreateMap<UpdateCustomerCommand, Customer>();
+            CreateMap<UpdateCustomerCommand, Customer>().ReverseMap();
 
-            CreateMap<UpdateCustomerCommand, Command>();
-            CreateMap<UpdateCustomerCommand, Command>().ReverseMap();
+            CreateMap<InsertProjectCommand, Project>();
+            CreateMap<InsertProjectCommand, Project>().ReverseMap();
+            CreateMap<UpdateProjectCommand, Project>();
+            CreateMap<UpdateProjectCommand, Project>().ReverseMap();
         }
     }
 }

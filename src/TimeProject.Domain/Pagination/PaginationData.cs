@@ -7,7 +7,7 @@ namespace TimeProject.Domain.Pagination
         public PaginationData(IEnumerable<T> data, int? limit = 30, int? page = 1, long? total = 0)
         {
             Data = data;
-            Limit = limit ?? 330;
+            Limit = limit ?? 30;
             Page = page ?? 1;
             Total = total ?? 0;
         }

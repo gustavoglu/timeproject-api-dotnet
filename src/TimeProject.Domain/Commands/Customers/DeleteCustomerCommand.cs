@@ -6,7 +6,7 @@ namespace TimeProject.Domain.Commands.Customers
     {
         public override bool IsValid()
         {
-            ValidationResult = new EntityIdValidation<DeleteCustomerCommand>().Validate(this);
+            SetValidationResult(new EntityIdValidation<DeleteCustomerCommand>().Validate(this));
             return base.IsValid();
         }
     }

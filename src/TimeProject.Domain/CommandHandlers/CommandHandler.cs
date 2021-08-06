@@ -23,7 +23,7 @@ namespace TimeProject.Domain.CommandHandlers
         {
             if (command.IsValid()) return true;
 
-            var domainNotifications = command.ValidationResult.Errors
+            var domainNotifications = command.GetValidationResult().Errors
                                                 .Select(error => new DomainNotification(error.PropertyName, error.ErrorMessage));
 
             foreach (var domainNotificatoin in domainNotifications)

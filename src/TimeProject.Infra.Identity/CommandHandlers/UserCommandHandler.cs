@@ -13,7 +13,7 @@ namespace TimeProject.Infra.Identity.CommandHandlers
     public class UserCommandHandler : CommandHandler, IRequestHandler<RegisterUserCommand, bool>, IRequestHandler<SignInUserCommand, bool>
     {
         private readonly IUserService _userService;
-        public UserCommandHandler(IMediatorHandler bus, INotificationHandler<DomainNotification> domainNotificationHandler, IUserService userService, Mapper mapper) : base(bus, domainNotificationHandler, mapper)
+        public UserCommandHandler(IMediatorHandler bus, INotificationHandler<DomainNotification> domainNotificationHandler, IUserService userService, IMapper mapper) : base(bus, domainNotificationHandler, mapper)
         {
             _userService = userService;
         }
