@@ -1,6 +1,7 @@
 ﻿using System;
+using TimeProject.Domain.Core.Entities;
 
-namespace TimeProject.Domain.Core.Entities
+namespace TimeProject.Domain.Entities
 {
     public class Project : Entity
     {

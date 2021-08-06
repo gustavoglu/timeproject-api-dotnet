@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using TimeProject.Domain.Commands.Activities;
 using TimeProject.Domain.Commands.Customers;
 using TimeProject.Domain.Commands.Projects;
-using TimeProject.Domain.Core.Entities;
 using TimeProject.Domain.Entities;
 
 namespace TimeProject.Domain.Mappers
@@ -19,6 +19,11 @@ namespace TimeProject.Domain.Mappers
             CreateMap<InsertProjectCommand, Project>().ReverseMap();
             CreateMap<UpdateProjectCommand, Project>();
             CreateMap<UpdateProjectCommand, Project>().ReverseMap();
+
+            CreateMap<InsertActivityCommand, Activity>();
+            CreateMap<InsertActivityCommand, Activity>().ReverseMap();
+            CreateMap<UpdateActivityCommand, Activity>();
+            CreateMap<UpdateActivityCommand, Activity>().ReverseMap();
         }
     }
 }

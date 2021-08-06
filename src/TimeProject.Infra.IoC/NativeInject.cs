@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using TimeActivity.Domain.CommandHandlers;
 using TimeProject.Domain.CommandHandlers;
+using TimeProject.Domain.Commands.Activities;
 using TimeProject.Domain.Commands.Customers;
 using TimeProject.Domain.Commands.Projects;
 using TimeProject.Domain.Core.Bus;
@@ -35,6 +37,7 @@ namespace TimeProject.Infra.IoC
             services.AddScoped<TenantyDbContext>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IActivityRepository, ActivityRepository>();
 
 
             services.AddScoped<IUserService, UserService>();
@@ -49,6 +52,10 @@ namespace TimeProject.Infra.IoC
             services.AddScoped<IRequestHandler<InsertProjectCommand, bool>, ProjectCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateProjectCommand, bool>, ProjectCommandHandler>();
             services.AddScoped<IRequestHandler<DeleteProjectCommand, bool>, ProjectCommandHandler>();
+
+            services.AddScoped<IRequestHandler<InsertActivityCommand, bool>, ActivityCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateActivityCommand, bool>, ActivityCommandHandler>();
+            services.AddScoped<IRequestHandler<DeleteActivityCommand, bool>, ActivityCommandHandler>();
 
         }
     }

@@ -2,6 +2,7 @@
 using TimeProject.Domain.Interfaces;
 using TimeProject.Infra.Data.Context;
 using TimeProject.Domain.Core.Entities;
+using TimeProject.Domain.Entities;
 
 namespace TimeProject.Infra.Data.Repositories
 {
