@@ -39,18 +39,18 @@ namespace TimeProject.Infra.Data.Repositories
             entity.CreateBy = UserAuthHelper.GetUserName();
         }
 
-        private void SetUpdateEntityProperties(string id,T entity)
+        private void SetUpdateEntityProperties(string id, T entity)
         {
             var entityInDatabase = GetById(id);
 
             entity.CreateAt = entityInDatabase.CreateAt;
             entity.CreateBy = entityInDatabase.CreateBy;
-           
+
             entity.UpdateAt = DateTime.Now;
             entity.UpdateBy = UserAuthHelper.GetUserName();
         }
 
-        private void SetDeleteEntityProperties(string id,T entity)
+        private void SetDeleteEntityProperties(string id, T entity)
         {
             var entityInDatabase = GetById(id);
 
@@ -70,7 +70,7 @@ namespace TimeProject.Infra.Data.Repositories
             Find.Limit(limit.Value).Skip((page.Value - 1) * limit.Value);
         }
 
-        protected void SetSort( IFindFluent<T, T> Find, string sortBy = null, bool sortDesc = false)
+        protected void SetSort(IFindFluent<T, T> Find, string sortBy = null, bool sortDesc = false)
         {
             if (Find == null || string.IsNullOrEmpty(sortBy)) return;
             Find.Sort(sortDesc ? Builders<T>.Sort.Descending(sortBy) : Builders<T>.Sort.Ascending(sortBy));
@@ -79,19 +79,16 @@ namespace TimeProject.Infra.Data.Repositories
         public PaginationData<T> GetAll(int? page = null, int? limit = null, string sortBy = null, bool sortDesc = false)
         {
             IFindFluent<T, T> Find = Collection.Find(FilterDefault);
-
+            long total = Find.CountDocuments();
             SetPagination(Find, page, limit);
             SetSort(Find, sortBy, sortDesc);
-
-            long total = Find.CountDocuments();
-
             return new PaginationData<T>(Find.ToList(), limit, page, total);
 
         }
 
         public T GetById(string id)
         {
-            var idFilter = Builders<T>.Filter.Eq(e => e.Id , id);
+            var idFilter = Builders<T>.Filter.Eq(e => e.Id, id);
             return Collection.Find(idFilter).FirstOrDefault();
         }
 
@@ -108,19 +105,16 @@ namespace TimeProject.Infra.Data.Repositories
             var expressoinFilter = Builders<T>.Filter.Where(predicate);
 
             IFindFluent<T, T> Find = Collection.Find(FilterDefault & expressoinFilter);
-
+            long total = Find.CountDocuments();
             SetPagination(Find, page, limit);
             SetSort(Find, sortBy, sortDesc);
-
-            long total = Find.CountDocuments();
-
             return new PaginationData<T>(Find.ToList(), limit, page, total);
         }
 
         public T Update(T entity)
         {
-            SetUpdateEntityProperties(entity.Id,entity);
-            Collection.ReplaceOne(e => e.Id == entity.Id,entity);
+            SetUpdateEntityProperties(entity.Id, entity);
+            Collection.ReplaceOne(e => e.Id == entity.Id, entity);
             return GetById(entity.Id);
         }
     }
