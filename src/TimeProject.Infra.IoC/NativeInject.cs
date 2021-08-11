@@ -6,6 +6,7 @@ using TimeProject.Domain.CommandHandlers;
 using TimeProject.Domain.Commands.Activities;
 using TimeProject.Domain.Commands.Customers;
 using TimeProject.Domain.Commands.Projects;
+using TimeProject.Domain.Commands.Teams;
 using TimeProject.Domain.Commands.TimeSheets;
 using TimeProject.Domain.Core.Bus;
 using TimeProject.Domain.Core.Notifications;
@@ -41,6 +42,7 @@ namespace TimeProject.Infra.IoC
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IActivityRepository, ActivityRepository>();
             services.AddScoped<ITimeSheetRepository, TimeSheetRepository>();
+            services.AddScoped<ITeamRepository, TeamRepository>();
 
 
             services.AddScoped<IUserService, UserService>();
@@ -63,6 +65,10 @@ namespace TimeProject.Infra.IoC
             services.AddScoped<IRequestHandler<InsertTimeSheetCommand, bool>, TimeSheetCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateTimeSheetCommand, bool>, TimeSheetCommandHandler>();
             services.AddScoped<IRequestHandler<DeleteTimeSheetCommand, bool>, TimeSheetCommandHandler>();
+
+            services.AddScoped<IRequestHandler<InsertTeamCommand, bool>, TeamCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateTeamCommand, bool>, TeamCommandHandler>();
+            services.AddScoped<IRequestHandler<DeleteTeamCommand, bool>, TeamCommandHandler>();
 
         }
     }
