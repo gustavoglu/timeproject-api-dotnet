@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TimeProject.Domain.Core.Bus;
@@ -44,8 +45,15 @@ namespace TimeProject.Infra.Identity.Services
             }
 
             var user = new User(command.Email, command.Tenanty, command.Name);
-            var res = await _userManager.CreateAsync(user, command.Password);
-            SendNotificationsByIdentityResult(res);
+
+;            var res = await _userManager.CreateAsync(user, command.Password);
+            if (!res.Succeeded)
+            {
+                SendNotificationsByIdentityResult(res);
+                return;
+            }
+
+            await AddClaim(user.Id, "rule", "master");
             return;
         }
 
@@ -77,6 +85,90 @@ namespace TimeProject.Infra.Identity.Services
         {
             return _userManager.Users.FirstOrDefault(u => u.Email == email &&
                                                                 u.Tenanty == tenanty);
+        }
+
+        public async Task RemoveClaims(string userId, IEnumerable<Claim> claims)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                await _bus.RaiseEvent(new DomainNotification("UserService", "User not found"));
+                return;
+            }
+
+            var claimsUser = await _userManager.GetClaimsAsync(user);
+
+            var claimsExists = from claimUser in claimsUser
+                               where claims.ToList()
+                                     .Exists(c => c.Type == claimUser.Type && c.Value == claimUser.Value)
+                               select claimUser;
+
+            if (claimsExists.Any())
+                await _userManager.RemoveClaimsAsync(user, claimsExists);
+        }
+
+        public async Task RemoveClaim(string userId, string type, string value)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                await _bus.RaiseEvent(new DomainNotification("UserService", "User not found"));
+                return;
+            }
+            var claims = await _userManager.GetClaimsAsync(user);
+            var claimExists = claims.Where(claim => claim.Type == type && claim.Value == value);
+            await _userManager.RemoveClaimsAsync(user, claimExists);
+        }
+
+        public async Task AddClaim(string userId, string type, string value)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                await _bus.RaiseEvent(new DomainNotification("UserService", "User not found"));
+                return;
+            }
+            var claims = await _userManager.GetClaimsAsync(user);
+
+            var claimExists = claims.Where(claim => claim.Type == type && claim.Value == value);
+
+            if (claimExists != null)
+                await _userManager.RemoveClaimsAsync(user, claimExists);
+
+            await _userManager.AddClaimAsync(user, new Claim(type, value));
+        }
+
+        public async Task AddClaims(string userId, IEnumerable<Claim> claims)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                await _bus.RaiseEvent(new DomainNotification("UserService", "User not found"));
+                return;
+            }
+            var claimsUser = await _userManager.GetClaimsAsync(user);
+
+            var claimsExists = from claimUser in claimsUser
+                               where claims.ToList()
+                                     .Exists(c => c.Type == claimUser.Type && c.Value == claimUser.Value)
+                               select claimUser;
+
+            if (claimsExists.Any())
+                await _userManager.RemoveClaimsAsync(user, claimsExists);
+
+            await _userManager.AddClaimsAsync(user, claims);
+        }
+
+        public async Task<IEnumerable<Claim>> GetClaims(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                await _bus.RaiseEvent(new DomainNotification("UserService", "User not found"));
+                return null;
+            }
+
+            return await _userManager.GetClaimsAsync(user);
         }
     }
 }

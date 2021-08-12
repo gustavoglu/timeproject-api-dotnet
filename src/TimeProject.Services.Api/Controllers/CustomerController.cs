@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TimeProject.Domain.Commands.Customers;
 using TimeProject.Domain.Core.Bus;
 using TimeProject.Domain.Core.Notifications;
+using TimeProject.Domain.Interfaces;
 using TimeProject.Domain.Interfaces.Repositories;
 
 namespace TimeProject.Services.Api.Controllers
@@ -11,7 +12,7 @@ namespace TimeProject.Services.Api.Controllers
     {
         private readonly ICustomerRepository _repository;
 
-        public CustomerController(IMediatorHandler bus, INotificationHandler<DomainNotification> notifications, ICustomerRepository repository) : base(bus, notifications)
+        public CustomerController(IMediatorHandler bus, INotificationHandler<DomainNotification> notifications, ICustomerRepository repository, IUserAuthHelper userAuthHelper) : base(bus, notifications, userAuthHelper)
         {
             _repository = repository;
         }

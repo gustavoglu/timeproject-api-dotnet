@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TimeProject.Domain.Core.Bus;
 using TimeProject.Domain.Core.Notifications;
+using TimeProject.Domain.Interfaces;
 using TimeProject.Infra.Identity.Commands;
 using TimeProject.Infra.Identity.Interfaces;
 using TimeProject.Infra.Identity.Models;
@@ -25,7 +26,7 @@ namespace TimeProject.Services.Api.Controllers
         private readonly IUserService _userService;
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
-        public UserController(IMediatorHandler bus, INotificationHandler<DomainNotification> notifications, IUserService userService, UserManager<User> userManager, IConfiguration configuration) : base(bus, notifications)
+        public UserController(IMediatorHandler bus, INotificationHandler<DomainNotification> notifications, IUserService userService, UserManager<User> userManager, IConfiguration configuration, IUserAuthHelper userAuthHelper) : base(bus, notifications, userAuthHelper)
         {
             _userService = userService;
             _userManager = userManager;

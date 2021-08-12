@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TimeProject.Domain.Commands.Projects;
+using TimeProject.Domain.Commands.Teams;
 using TimeProject.Domain.Core.Bus;
 using TimeProject.Domain.Core.Notifications;
 using TimeProject.Domain.Interfaces;
@@ -8,11 +8,11 @@ using TimeProject.Domain.Interfaces.Repositories;
 
 namespace TimeProject.Services.Api.Controllers
 {
-    public class ProjectController : ApiControllerBase
+    public class TeamController : ApiControllerBase
     {
-        private readonly IProjectRepository _repository;
+        private readonly ITeamRepository _repository;
 
-        public ProjectController(IMediatorHandler bus, INotificationHandler<DomainNotification> notifications, IProjectRepository repository, IUserAuthHelper userAuthHelper) : base(bus, notifications, userAuthHelper)
+        public TeamController(IMediatorHandler bus, INotificationHandler<DomainNotification> notifications, ITeamRepository repository, IUserAuthHelper userAuthHelper) : base(bus, notifications, userAuthHelper)
         {
             _repository = repository;
         }
@@ -32,14 +32,14 @@ namespace TimeProject.Services.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Insert([FromBody]InsertProjectCommand command)
+        public IActionResult Insert([FromBody] InsertTeamCommand command)
         {
             Bus.SendCommand(command);
             return ResponseDefault();
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] UpdateProjectCommand command)
+        public IActionResult Update([FromBody] UpdateTeamCommand command)
         {
             Bus.SendCommand(command);
             return ResponseDefault();
@@ -49,7 +49,7 @@ namespace TimeProject.Services.Api.Controllers
         [HttpDelete]
         public IActionResult Update(string id)
         {
-            Bus.SendCommand(new DeleteProjectCommand() { Id = id});
+            Bus.SendCommand(new DeleteTeamCommand() { Id = id });
             return ResponseDefault();
         }
     }

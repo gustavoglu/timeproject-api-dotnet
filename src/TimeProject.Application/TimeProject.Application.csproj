@@ -4,4 +4,13 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TimeProject.Domain\TimeProject.Domain.csproj" />
+    <ProjectReference Include="..\TimeProject.Infra.Identity\TimeProject.Infra.Identity.csproj" />
+  </ItemGroup>
+
 </Project>

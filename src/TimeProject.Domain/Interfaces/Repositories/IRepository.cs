@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using TimeProject.Domain.Core.Entities;
 using TimeProject.Domain.Pagination;
@@ -13,6 +14,7 @@ namespace TimeProject.Domain.Interfaces.Repositories
         T Insert(T entity);
         T Update(T entity);
         void Delete(string id);
+        public IEnumerable<T> GetByIds(string[] ids);
 
     }
 }

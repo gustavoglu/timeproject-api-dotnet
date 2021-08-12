@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TimeProject.Domain.Core.Bus;
 using TimeProject.Domain.Core.Notifications;
+using TimeProject.Domain.Interfaces;
 
 namespace TimeProject.Services.Api.Controllers
 {
@@ -16,15 +17,17 @@ namespace TimeProject.Services.Api.Controllers
     {
         protected readonly IMediatorHandler Bus;
         protected readonly DomainNotificationHandler Notifications;
+        protected readonly IUserAuthHelper UserAuthHelper;
 
-        protected ApiControllerBase(IMediatorHandler bus, INotificationHandler<DomainNotification> notifications)
+        protected ApiControllerBase(IMediatorHandler bus, INotificationHandler<DomainNotification> notifications, IUserAuthHelper userAuthHelper)
         {
             Bus = bus;
             Notifications = (DomainNotificationHandler)notifications;
+            UserAuthHelper = userAuthHelper;
         }
 
 
-        
+
 
         protected IActionResult ResponseDefault(object obj = null)
         {

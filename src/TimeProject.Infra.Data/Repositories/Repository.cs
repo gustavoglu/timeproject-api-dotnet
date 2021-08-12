@@ -86,6 +86,12 @@ namespace TimeProject.Infra.Data.Repositories
 
         }
 
+        public IEnumerable<T> GetByIds(string[] ids)
+        {
+            var idsFilter = Builders<T>.Filter.In(e => e.Id, ids);
+            return Collection.Find(idsFilter).ToList();
+        }
+
         public T GetById(string id)
         {
             var idFilter = Builders<T>.Filter.Eq(e => e.Id, id);

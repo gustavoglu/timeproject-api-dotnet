@@ -1,18 +1,21 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TimeProject.Domain.Commands.Activities;
 using TimeProject.Domain.Core.Bus;
 using TimeProject.Domain.Core.Notifications;
+using TimeProject.Domain.Interfaces;
 using TimeProject.Domain.Interfaces.Repositories;
 using TimeProject.Services.Api.Controllers;
 
 namespace TimeActivity.Services.Api.Controllers
 {
+    [Authorize]
     public class ActivityController : ApiControllerBase
     {
         private readonly IActivityRepository _repository;
 
-        public ActivityController(IMediatorHandler bus, INotificationHandler<DomainNotification> notifications, IActivityRepository repository) : base(bus, notifications)
+        public ActivityController(IMediatorHandler bus, INotificationHandler<DomainNotification> notifications, IActivityRepository repository, IUserAuthHelper userAuthHelper) : base(bus, notifications, userAuthHelper)
         {
             _repository = repository;
         }

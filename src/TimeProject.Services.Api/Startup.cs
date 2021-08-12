@@ -67,6 +67,13 @@ namespace TimeProject.Services.Api
 
             });
 
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("master", plc => plc.RequireClaim("rule", "master"));
+                opt.AddPolicy("admin", plc => plc.RequireClaim("rule", "master", "admin"));
+                opt.AddPolicy("colaborator", plc => plc.RequireClaim("rule", "master", "colaborator"));
+            });
+
 
             services.AddSwaggerGen(c =>
             {
