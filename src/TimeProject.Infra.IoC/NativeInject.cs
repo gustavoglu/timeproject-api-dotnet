@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using TimeActivity.Domain.CommandHandlers;
+using TimeProject.Application.Interfaces;
+using TimeProject.Application.Services;
 using TimeProject.Domain.CommandHandlers;
 using TimeProject.Domain.Commands.Activities;
 using TimeProject.Domain.Commands.Customers;
@@ -44,6 +46,7 @@ namespace TimeProject.Infra.IoC
             services.AddScoped<ITimeSheetRepository, TimeSheetRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
 
+            services.AddScoped<ITeamService, TeamService>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserAuthHelper, UserAuthHelper>();
@@ -69,6 +72,13 @@ namespace TimeProject.Infra.IoC
             services.AddScoped<IRequestHandler<InsertTeamCommand, bool>, TeamCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateTeamCommand, bool>, TeamCommandHandler>();
             services.AddScoped<IRequestHandler<DeleteTeamCommand, bool>, TeamCommandHandler>();
+
+
+
+
+
+
+
 
         }
     }

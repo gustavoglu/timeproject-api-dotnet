@@ -9,10 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\TimeProject.Domain.Core\TimeProject.Domain.Core.csproj" />
     <ProjectReference Include="..\TimeProject.Domain\TimeProject.Domain.csproj" />
   </ItemGroup>

@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TimeProject.Application\TimeProject.Application.csproj" />
     <ProjectReference Include="..\TimeProject.Infra.Identity\TimeProject.Infra.Identity.csproj" />
     <ProjectReference Include="..\TimeProject.Infra.IoC\TimeProject.Infra.IoC.csproj" />
   </ItemGroup>

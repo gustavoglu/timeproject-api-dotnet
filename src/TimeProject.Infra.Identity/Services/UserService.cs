@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using TimeProject.Domain.Core.Bus;
 using TimeProject.Domain.Core.Notifications;
+using TimeProject.Domain.Interfaces;
 using TimeProject.Infra.Identity.Commands;
 using TimeProject.Infra.Identity.Interfaces;
 using TimeProject.Infra.Identity.Models;
+using TimeProject.Infra.Identity.ViewModels;
 
 namespace TimeProject.Infra.Identity.Services
 {
@@ -18,12 +21,29 @@ namespace TimeProject.Infra.Identity.Services
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IMediatorHandler _bus;
+        private readonly IUserAuthHelper _userAuthHelper;
+        private readonly IMapper _mapper;
 
-        public UserService(UserManager<User> userManager, SignInManager<User> signInManager, IMediatorHandler bus)
+
+        public UserService(UserManager<User> userManager, SignInManager<User> signInManager, IMediatorHandler bus, IUserAuthHelper userAuthHelper, IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _bus = bus;
+            _userAuthHelper = userAuthHelper;
+            _mapper = mapper;
+        }
+
+        public List<User> GetAll()
+        {
+            return _userManager.Users.Where(user => user.Tenanty == _userAuthHelper.GetTenanty()).ToList();
+        }
+
+        public List<UserSimpleViewModel> GetUsersSimple()
+        {
+            var users = _userManager.Users.Where(user => user.Tenanty ==  _userAuthHelper.GetTenanty()).ToList();
+            var usersSimple = _mapper.Map<List<UserSimpleViewModel>>(users);
+            return usersSimple;
         }
 
         private void SendNotificationsByIdentityResult(IdentityResult identityResult)

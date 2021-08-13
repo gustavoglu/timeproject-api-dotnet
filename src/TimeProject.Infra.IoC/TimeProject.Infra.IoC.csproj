@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TimeProject.Application\TimeProject.Application.csproj" />
     <ProjectReference Include="..\TimeProject.Infra.Bus\TimeProject.Infra.Bus.csproj" />
     <ProjectReference Include="..\TimeProject.Infra.Data\TimeProject.Infra.Data.csproj" />
     <ProjectReference Include="..\TimeProject.Infra.Identity\TimeProject.Infra.Identity.csproj" />

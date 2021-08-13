@@ -47,7 +47,7 @@ namespace TimeProject.Services.Api.Controllers
 
 
         [HttpDelete]
-        public IActionResult Update(string id)
+        public IActionResult Delete(string id)
         {
             Bus.SendCommand(new DeleteCustomerCommand() { Id = id});
             return ResponseDefault();

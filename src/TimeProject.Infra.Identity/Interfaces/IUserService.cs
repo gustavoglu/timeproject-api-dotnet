@@ -3,11 +3,14 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using TimeProject.Infra.Identity.Commands;
 using TimeProject.Infra.Identity.Models;
+using TimeProject.Infra.Identity.ViewModels;
 
 namespace TimeProject.Infra.Identity.Interfaces
 {
     public interface IUserService
     {
+        public List<User> GetAll();
+        List<UserSimpleViewModel> GetUsersSimple();
         Task AddClaim(string userId, string type, string value);
         Task AddClaims(string userId, IEnumerable<Claim> claims);
         Task<IEnumerable<Claim>> GetClaims(string userId);

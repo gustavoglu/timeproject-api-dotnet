@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TimeProject.Application.Interfaces;
+using TimeProject.Application.ViewModels;
 using TimeProject.Domain.Commands.Teams;
 using TimeProject.Domain.Core.Bus;
 using TimeProject.Domain.Core.Notifications;
@@ -11,11 +13,21 @@ namespace TimeProject.Services.Api.Controllers
     public class TeamController : ApiControllerBase
     {
         private readonly ITeamRepository _repository;
+        private readonly ITeamService _teamService;
 
-        public TeamController(IMediatorHandler bus, INotificationHandler<DomainNotification> notifications, ITeamRepository repository, IUserAuthHelper userAuthHelper) : base(bus, notifications, userAuthHelper)
+        public TeamController(IMediatorHandler bus, INotificationHandler<DomainNotification> notifications, ITeamRepository repository, IUserAuthHelper userAuthHelper, ITeamService teamService) : base(bus, notifications, userAuthHelper)
         {
             _repository = repository;
+            _teamService = teamService;
         }
+
+
+        [HttpGet("options")]
+        public IActionResult GetOptions(string teamId = null)
+        {
+            return ResponseDefault(_teamService.GetTeamOptions(teamId));
+        }
+
 
 
         [HttpGet]
@@ -32,22 +44,22 @@ namespace TimeProject.Services.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Insert([FromBody] InsertTeamCommand command)
+        public IActionResult Insert([FromBody] TeamFormViewModel model)
         {
-            Bus.SendCommand(command);
+            _teamService.Insert(model);
             return ResponseDefault();
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] UpdateTeamCommand command)
+        public IActionResult Update([FromBody] TeamFormViewModel model)
         {
-            Bus.SendCommand(command);
+            _teamService.Update(model);
             return ResponseDefault();
         }
 
 
         [HttpDelete]
-        public IActionResult Update(string id)
+        public IActionResult Delete(string id)
         {
             Bus.SendCommand(new DeleteTeamCommand() { Id = id });
             return ResponseDefault();

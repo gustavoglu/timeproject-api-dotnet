@@ -63,7 +63,7 @@ namespace TimeTimeSheet.Services.Api.Controllers
 
 
         [HttpDelete]
-        public IActionResult Update(string id)
+        public IActionResult Delete(string id)
         {
             Bus.SendCommand(new DeleteTimeSheetCommand() { Id = id});
             return ResponseDefault();
