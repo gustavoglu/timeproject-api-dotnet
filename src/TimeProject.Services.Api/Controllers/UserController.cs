@@ -34,9 +34,18 @@ namespace TimeProject.Services.Api.Controllers
         }
 
         [Authorize]
-        [HttpGet("teste-auth")]
-        public IActionResult Teste()
+        [HttpGet("rules")]
+        public async Task<IActionResult> GetRules(string userId = null)
         {
+            return ResponseDefault(await _userService.GetRules(userId));
+        }
+
+
+        [Authorize]
+        [HttpPut("rules")]
+        public async Task<IActionResult> UpdateRules(string userId, [FromBody] List<KeyValuePair<string, bool>> rules)
+        {
+            await _userService.UpdateRules(userId, rules);
             return ResponseDefault();
         }
 
@@ -46,7 +55,6 @@ namespace TimeProject.Services.Api.Controllers
             await Bus.SendCommand(command);
             return ResponseDefault();
         }
-
 
         [HttpPost("token")]
         public async Task<IActionResult> SignIn([FromBody] SignInUserCommand command)

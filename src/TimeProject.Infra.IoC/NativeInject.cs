@@ -47,6 +47,7 @@ namespace TimeProject.Infra.IoC
             services.AddScoped<ITeamRepository, TeamRepository>();
 
             services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<ITimeSheetService, TimeSheetService>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserAuthHelper, UserAuthHelper>();

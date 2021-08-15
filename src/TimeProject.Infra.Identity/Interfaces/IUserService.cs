@@ -18,5 +18,7 @@ namespace TimeProject.Infra.Identity.Interfaces
         Task<bool> SignInAsync(SignInUserCommand command);
         User GetUserByEmailAndTenanty(string tenanty, string email);
         Task RemoveClaims(string userId, IEnumerable<Claim> claims);
+        Task UpdateRules(string userId, List<KeyValuePair<string, bool>> rules);
+        Task<List<KeyValuePair<string, bool>>> GetRules(string userId = null);
     }
 }

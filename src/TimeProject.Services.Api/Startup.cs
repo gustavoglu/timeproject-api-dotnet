@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TimeProject.Infra.Identity.Models;
+using TimeProject.Infra.Identity.Rules;
 using TimeProject.Infra.IoC;
 
 namespace TimeProject.Services.Api
@@ -69,9 +70,9 @@ namespace TimeProject.Services.Api
 
             services.AddAuthorization(opt =>
             {
-                opt.AddPolicy("master", plc => plc.RequireClaim("rule", "master"));
-                opt.AddPolicy("admin", plc => plc.RequireClaim("rule", "master", "admin"));
-                opt.AddPolicy("colaborator", plc => plc.RequireClaim("rule", "master", "colaborator"));
+                opt.AddPolicy("master", plc => plc.RequireClaim("rule", ERule.Master.ToString()));
+                opt.AddPolicy("admin", plc => plc.RequireClaim("rule", ERule.Admin.ToString()));
+                opt.AddPolicy("colaborator", plc => plc.RequireClaim("rule", ERule.Colaborator.ToString()));
             });
 
 

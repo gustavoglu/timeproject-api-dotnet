@@ -12,6 +12,7 @@ using TimeProject.Domain.Interfaces;
 using TimeProject.Infra.Identity.Commands;
 using TimeProject.Infra.Identity.Interfaces;
 using TimeProject.Infra.Identity.Models;
+using TimeProject.Infra.Identity.Rules;
 using TimeProject.Infra.Identity.ViewModels;
 
 namespace TimeProject.Infra.Identity.Services
@@ -34,6 +35,58 @@ namespace TimeProject.Infra.Identity.Services
             _mapper = mapper;
         }
 
+
+        public async Task UpdateRules(string userId, List<KeyValuePair<string, bool>> rules)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                await _bus.RaiseEvent(new DomainNotification("UserService", "User not found"));
+                return ;
+            }
+
+            var rulesToClaimList = rules.Where(rule => rule.Value == true).Select(rule => new Claim("rule",rule.Key));
+
+            var claims = await GetClaims(userId);
+
+            var claimsRule = claims.Where(claim => claim.Type == "rule").ToList();
+
+            await _userManager.RemoveClaimsAsync(user, claimsRule);
+
+            await _userManager.AddClaimsAsync(user, rulesToClaimList);
+
+        }
+
+        public async Task<List<KeyValuePair<string,bool>>> GetRules(string userId = null)
+        {
+            var rules = Enum.GetNames(typeof(ERule)).ToList();
+            
+            if (userId == null)
+                return rules.Select(rule => new KeyValuePair<string, bool>(rule, false)).ToList();
+
+            var user = await _userManager.FindByIdAsync(userId);
+        
+            if(user == null)
+            {
+                await _bus.RaiseEvent(new DomainNotification("UserService", "User not found"));
+                return null;
+            }
+
+            var claims = (await GetClaims(userId)).ToList();
+
+
+            var rulesSelect = from rule in rules
+                                select new KeyValuePair<string, bool>(rule, claims.Exists(claim => claim.Type == "rule" && claim.Value == rule));
+
+            return rulesSelect.ToList();
+
+        }
+
+        private bool NoUsersInTenanty(string tenanty)
+        {
+            return _userManager.Users.ToList().Exists(user => user.Tenanty == tenanty);
+        }
         public List<User> GetAll()
         {
             return _userManager.Users.Where(user => user.Tenanty == _userAuthHelper.GetTenanty()).ToList();
@@ -73,7 +126,9 @@ namespace TimeProject.Infra.Identity.Services
                 return;
             }
 
-            await AddClaim(user.Id, "rule", "master");
+            if(NoUsersInTenanty(command.Tenanty))
+                await AddClaim(user.Id, "rule", ERule.Master.ToString());
+
             return;
         }
 
