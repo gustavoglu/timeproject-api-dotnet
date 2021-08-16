@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using TimeProject.Domain.Core.Bus;
 using TimeProject.Domain.Core.Notifications;
 using TimeProject.Domain.Interfaces;
+using TimeProject.Domain.Pagination;
 using TimeProject.Infra.Identity.Commands;
 using TimeProject.Infra.Identity.Interfaces;
 using TimeProject.Infra.Identity.Models;
@@ -43,10 +44,10 @@ namespace TimeProject.Infra.Identity.Services
             if (user == null)
             {
                 await _bus.RaiseEvent(new DomainNotification("UserService", "User not found"));
-                return ;
+                return;
             }
 
-            var rulesToClaimList = rules.Where(rule => rule.Value == true).Select(rule => new Claim("rule",rule.Key));
+            var rulesToClaimList = rules.Where(rule => rule.Value == true).Select(rule => new Claim("rule", rule.Key));
 
             var claims = await GetClaims(userId);
 
@@ -58,16 +59,16 @@ namespace TimeProject.Infra.Identity.Services
 
         }
 
-        public async Task<List<KeyValuePair<string,bool>>> GetRules(string userId = null)
+        public async Task<List<KeyValuePair<string, bool>>> GetRules(string userId = null)
         {
             var rules = Enum.GetNames(typeof(ERule)).ToList();
-            
+
             if (userId == null)
                 return rules.Select(rule => new KeyValuePair<string, bool>(rule, false)).ToList();
 
             var user = await _userManager.FindByIdAsync(userId);
-        
-            if(user == null)
+
+            if (user == null)
             {
                 await _bus.RaiseEvent(new DomainNotification("UserService", "User not found"));
                 return null;
@@ -77,7 +78,7 @@ namespace TimeProject.Infra.Identity.Services
 
 
             var rulesSelect = from rule in rules
-                                select new KeyValuePair<string, bool>(rule, claims.Exists(claim => claim.Type == "rule" && claim.Value == rule));
+                              select new KeyValuePair<string, bool>(rule, claims.Exists(claim => claim.Type == "rule" && claim.Value == rule));
 
             return rulesSelect.ToList();
 
@@ -85,16 +86,44 @@ namespace TimeProject.Infra.Identity.Services
 
         private bool NoUsersInTenanty(string tenanty)
         {
-            return _userManager.Users.ToList().Exists(user => user.Tenanty == tenanty);
+            return !_userManager.Users.ToList().Exists(user => user.Tenanty == tenanty);
         }
-        public List<User> GetAll()
+
+        public UserSimpleViewModel GetById(string id)
         {
-            return _userManager.Users.Where(user => user.Tenanty == _userAuthHelper.GetTenanty()).ToList();
+            string tenanty = _userAuthHelper.GetTenanty();
+            var user = _userManager.Users.Where(user => user.Tenanty == tenanty).FirstOrDefault();
+            return new UserSimpleViewModel() { Id = user.Id, Email = user.Email, Name = user.Name };
+        }
+
+        public PaginationData<UserSimpleViewModel> GetAll(int? page = null, int? limit = null)
+        {
+            string tenanty = _userAuthHelper.GetTenanty();
+            long total = _userManager.Users.Where(user => user.Tenanty == tenanty).Count();
+
+            if (page.HasValue && limit.HasValue)
+            {
+                return new PaginationData<UserSimpleViewModel>(
+                _userManager.Users
+                 .Where(user => user.Tenanty == tenanty)
+                 .Skip((page.Value - 1) * limit.Value)
+                 .Take(limit.Value)
+                 .Select(user => new UserSimpleViewModel() { Id = user.Id, Email = user.Email, Name = user.Name })
+                 .OrderBy(user => user.Email)
+                 .ToList(), limit, page, total);
+            }
+
+
+            return new PaginationData<UserSimpleViewModel>(_userManager.Users
+                                                                 .Where(user => user.Tenanty == tenanty)
+                                                                 .Select(user => new UserSimpleViewModel() { Id = user.Id, Email = user.Email, Name = user.Name })
+                                                                 .OrderBy(user => user.Email)
+                                                                 .ToList(), limit, page, total);
         }
 
         public List<UserSimpleViewModel> GetUsersSimple()
         {
-            var users = _userManager.Users.Where(user => user.Tenanty ==  _userAuthHelper.GetTenanty()).ToList();
+            var users = _userManager.Users.Where(user => user.Tenanty == _userAuthHelper.GetTenanty()).ToList();
             var usersSimple = _mapper.Map<List<UserSimpleViewModel>>(users);
             return usersSimple;
         }
@@ -119,19 +148,20 @@ namespace TimeProject.Infra.Identity.Services
 
             var user = new User(command.Email, command.Tenanty, command.Name);
 
-;            var res = await _userManager.CreateAsync(user, command.Password);
+            bool noUsersInTenanty = NoUsersInTenanty(command.Tenanty);
+
+            var res = await _userManager.CreateAsync(user, command.Password);
             if (!res.Succeeded)
             {
                 SendNotificationsByIdentityResult(res);
                 return;
             }
 
-            if(NoUsersInTenanty(command.Tenanty))
+            if (noUsersInTenanty)
                 await AddClaim(user.Id, "rule", ERule.Master.ToString());
 
             return;
         }
-
 
         public async Task<bool> SignInAsync(SignInUserCommand command)
         {
@@ -154,7 +184,6 @@ namespace TimeProject.Infra.Identity.Services
 
             return true;
         }
-
 
         public User GetUserByEmailAndTenanty(string tenanty, string email)
         {

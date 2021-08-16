@@ -49,6 +49,21 @@ namespace TimeProject.Services.Api.Controllers
             return ResponseDefault();
         }
 
+
+        [Authorize]
+        [HttpGet("{id}")]
+        public IActionResult GetById(string id)
+        {
+            return ResponseDefault(_userService.GetById(id));
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult GetAll(int? page = null, int? limit = null, string sortBy = null, bool sortDesc = false)
+        {
+            return ResponseDefault(_userService.GetAll(page, limit));
+        }
+
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserCommand command)
         {

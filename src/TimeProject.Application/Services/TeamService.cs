@@ -77,17 +77,17 @@ namespace TimeProject.Application.Services
             var users = _userService.GetAll();
             var customers = _customerRepository.GetAll().Data;
             var projects = _projectRepository.GetAll().Data;
-            List<KeyValuePair<string, string>> usersDataSelect = users.Select(user => new KeyValuePair<string, string>(user.Id, $"{user.Name} ({user.Email})")).ToList();
+            List<KeyValuePair<string, string>> usersDataSelect = users.Data.Select(user => new KeyValuePair<string, string>(user.Id, $"{user.Name} ({user.Email})")).ToList();
             if (teamId != null)
             {
                 var team = _teamRepository.GetById(teamId);
-                usersTeamDataSelect = users.Select(user => new DataSelect(user.Id, user.Name, team.UserIds.ToList().Exists(userId => userId == user.Id))).ToList();
+                usersTeamDataSelect = users.Data.Select(user => new DataSelect(user.Id, user.Name, team.UserIds.ToList().Exists(userId => userId == user.Id))).ToList();
                 customersDataSelect = customers.Select(customer => new DataSelect(customer.Id, customer.Name, team.CustomerIds.ToList().Exists(customerId => customerId == customer.Id))).ToList();
                 projectsDataSelect = projects.Select(project => new DataSelect(project.Id, project.Name, team.ProjectIds.ToList().Exists(projectId => projectId == project.Id))).ToList();
             }
             else
             {
-                usersTeamDataSelect = users.Select(user => new DataSelect(user.Id, user.Name)).ToList();
+                usersTeamDataSelect = users.Data.Select(user => new DataSelect(user.Id, user.Name)).ToList();
                 customersDataSelect = customers.Select(customer => new DataSelect(customer.Id, customer.Name)).ToList();
                 projectsDataSelect = projects.Select(project => new DataSelect(project.Id, project.Name)).ToList();
             }
