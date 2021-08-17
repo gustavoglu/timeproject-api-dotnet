@@ -3,6 +3,7 @@ using AspNetCore.Identity.Mongo.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +19,7 @@ using System.Threading.Tasks;
 using TimeProject.Infra.Identity.Models;
 using TimeProject.Infra.Identity.Rules;
 using TimeProject.Infra.IoC;
+using TimeProject.Services.Api.Middlewares;
 
 namespace TimeProject.Services.Api
 {
@@ -91,6 +93,8 @@ namespace TimeProject.Services.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseServerErrorResponse();
 
             app.UseCors("*");
 

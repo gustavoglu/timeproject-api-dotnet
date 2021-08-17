@@ -6,6 +6,11 @@ namespace TimeProject.Domain.Commands.Customers
 {
     public abstract class CustomerCommand : EntityCommand
     {
+        public CustomerCommand()
+        {
+            Location = new Location();
+            Contact = new Contact();
+        }
         public string Code { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

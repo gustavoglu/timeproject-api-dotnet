@@ -13,8 +13,8 @@ namespace TimeProject.Domain.Entities
             Code = code;
             Description = description;
             CompanyName = companyName;
-            Location = location;
-            Contact = contact;
+            Location = location ?? new Location();
+            Contact = contact ?? new Contact();
             Budget = budget;
             TimeBudget = timeBudget ?? TimeSpan.Zero;
         }

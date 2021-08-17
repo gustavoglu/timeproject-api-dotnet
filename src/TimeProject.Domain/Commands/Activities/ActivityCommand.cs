@@ -5,6 +5,10 @@ namespace TimeProject.Domain.Commands.Activities
 {
     public class ActivityCommand : EntityCommand
     {
+        public ActivityCommand()
+        {
+            TimeBudget = TimeSpan.Zero;
+        }
         public string Code { get; set; }
         public string Name { get; set; }
         public string Color { get; set; }

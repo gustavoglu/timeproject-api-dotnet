@@ -12,10 +12,17 @@ namespace TimeProject.Domain.Mappers
     {
         public CommandToEntity()
         {
-            CreateMap<InsertCustomerCommand, Customer>();
-            CreateMap<InsertCustomerCommand, Customer>().ReverseMap();
-            CreateMap<UpdateCustomerCommand, Customer>();
-            CreateMap<UpdateCustomerCommand, Customer>().ReverseMap();
+            CreateMap<InsertCustomerCommand, Customer>()
+                .ConstructUsing(c => new Customer(c.Name, c.Code, c.Description, c.CompanyName, c.Location, c.Contact, c.Budget, c.TimeBudget));
+            CreateMap<InsertCustomerCommand, Customer>()
+                                .ConstructUsing(c => new Customer(c.Name, c.Code, c.Description, c.CompanyName, c.Location, c.Contact, c.Budget, c.TimeBudget) { Id = c.Id })
+                                .ReverseMap();
+
+            CreateMap<UpdateCustomerCommand, Customer>()
+                 .ConstructUsing(c => new Customer(c.Name, c.Code, c.Description, c.CompanyName, c.Location, c.Contact, c.Budget, c.TimeBudget));
+            CreateMap<UpdateCustomerCommand, Customer>()
+                             .ConstructUsing(c => new Customer(c.Name, c.Code, c.Description, c.CompanyName, c.Location, c.Contact, c.Budget, c.TimeBudget) { Id = c.Id })
+                             .ReverseMap();
 
             CreateMap<InsertProjectCommand, Project>();
             CreateMap<InsertProjectCommand, Project>().ReverseMap();
