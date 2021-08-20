@@ -114,7 +114,9 @@ namespace TimeProject.Services.Api.Controllers
                 Name = user.Name,
                 Tenanty = user.Tenanty,
                 Expires = expireted,
-                TokenAccess = tokenWrite
+                TokenAccess = tokenWrite,
+                Claims = claims
+
             };
 
             return ResponseDefault(responseToken);
