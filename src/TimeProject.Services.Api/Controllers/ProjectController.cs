@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TimeProject.Domain.Commands.Projects;
 using TimeProject.Domain.Core.Bus;
@@ -8,6 +9,8 @@ using TimeProject.Domain.Interfaces.Repositories;
 
 namespace TimeProject.Services.Api.Controllers
 {
+    [Authorize(Policy = "admin")]
+
     public class ProjectController : ApiControllerBase
     {
         private readonly IProjectRepository _repository;
