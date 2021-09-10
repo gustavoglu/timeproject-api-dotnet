@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using MongoDB.Bson.Serialization.Conventions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,9 @@ namespace TimeProject.Infra.Identity.Services
             _bus = bus;
             _userAuthHelper = userAuthHelper;
             _mapper = mapper;
+
+            var conventionPack = new ConventionPack { new IgnoreExtraElementsConvention(true) };
+            ConventionRegistry.Register("IgnoreExtraElements", conventionPack, type => true);
         }
 
 
@@ -74,6 +78,7 @@ namespace TimeProject.Infra.Identity.Services
                 return null;
             }
 
+            var c = await GetClaims(userId);
             var claims = (await GetClaims(userId)).ToList();
 
 

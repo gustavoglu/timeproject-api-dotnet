@@ -7,6 +7,7 @@ using TimeProject.Domain.Commands.TimeSheets;
 using TimeProject.Domain.Core.Bus;
 using TimeProject.Domain.Core.Notifications;
 using TimeProject.Domain.Entities;
+using TimeProject.Domain.Interfaces;
 using TimeProject.Domain.Interfaces.Repositories;
 
 namespace TimeTimeSheet.Domain.CommandHandlers
@@ -15,14 +16,19 @@ namespace TimeTimeSheet.Domain.CommandHandlers
     public class TimeSheetCommandHandler : CommandHandler, IRequestHandler<InsertTimeSheetCommand, bool>, IRequestHandler<UpdateTimeSheetCommand, bool>, IRequestHandler<DeleteTimeSheetCommand, bool>
     {
         private readonly ITimeSheetRepository _repository;
+        private readonly IUserAuthHelper _userAuthHelper;
 
-        public TimeSheetCommandHandler(IMediatorHandler bus, INotificationHandler<DomainNotification> domainNotificationHandler, IMapper mapper, ITimeSheetRepository repository) : base(bus, domainNotificationHandler, mapper)
+        public TimeSheetCommandHandler(IMediatorHandler bus, INotificationHandler<DomainNotification> domainNotificationHandler, IMapper mapper, ITimeSheetRepository repository, IUserAuthHelper userAuthHelper) : base(bus, domainNotificationHandler, mapper)
         {
             _repository = repository;
+            _userAuthHelper = userAuthHelper;
         }
 
         public Task<bool> Handle(InsertTimeSheetCommand request, CancellationToken cancellationToken)
         {
+            if (request.UserId == null) request.UserId = _userAuthHelper.GetId();
+
+
             if (!CommandIsValid(request)) return Task.FromResult(false);
             var entity = Mapper.Map<TimeSheet>(request);
             _repository.Insert(entity);

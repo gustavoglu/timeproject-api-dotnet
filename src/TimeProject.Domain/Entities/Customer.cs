@@ -7,7 +7,7 @@ namespace TimeProject.Domain.Entities
     public class Customer : Entity
     {
         public Customer(string name, string code = null, string description = null, string companyName = null, 
-                            Location location = null, Contact contact = null, double budget = 0, TimeSpan? timeBudget = null)
+                            Location location = null, Contact contact = null, double budget = 0, string timeBudget = null)
         {
             Name = name;
             Code = code;
@@ -16,7 +16,7 @@ namespace TimeProject.Domain.Entities
             Location = location ?? new Location();
             Contact = contact ?? new Contact();
             Budget = budget;
-            TimeBudget = timeBudget ?? TimeSpan.Zero;
+            TimeBudget = timeBudget;
         }
 
         public string Code { get; set; }
@@ -26,6 +26,6 @@ namespace TimeProject.Domain.Entities
         public Location Location { get; set; }
         public Contact Contact { get; set; }
         public double Budget { get; set; }
-        public TimeSpan TimeBudget { get; set; }
+        public string TimeBudget { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace TimeProject.Domain.Commands.Customers
         public Location Location { get; set; }
         public Contact Contact { get; set; }
         public double Budget { get; set; }
-        public TimeSpan TimeBudget { get; set; }
+        public string TimeBudget { get; set; }
 
     }
 }
